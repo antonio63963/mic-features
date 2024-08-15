@@ -1,5 +1,5 @@
 import { FC } from "react";
-import useSpeech from "../hooks/useSpeech";
+import useSpeech from "../hooks/useSpeechToText";
 
 const SpeechToText = () => {
   const {
