@@ -1,0 +1,72 @@
+.micToggle {
+  position: relative;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 100%;
+  background-color: crimson;
+  margin-bottom: 4rem;
+}
+.micToggle::after,
+.micToggle::before {
+  border-radius: 100%;
+  content: "";
+  position: absolute;
+  z-index: -1;
+  background-color: rgba(209, 20, 108, .2);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.micToggle::after {
+  /* transition: 0.2s; */
+}
+.micToggle::before {
+  /* transition: 0.4s; */
+}
+.micToggle.isRecording::after {
+  animation: smoothAfter ;
+  animation-duration: .6s;
+  animation-timing-function: ease-in-out;
+  animation-direction: alternate-reverse;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+}
+.micToggle.isRecording::before {
+  animation-delay: .1s;
+  animation: smoothBefore ;
+  animation-duration: .6s;
+  animation-timing-function: ease-in-out;
+  animation-direction: alternate-reverse;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+}
+
+@keyframes smoothAfter {
+  0% {
+    top: -2rem;
+    bottom: -2rem;
+    left: -2rem;
+    right: -2rem;
+  }
+  100% {
+    top: 0rem;
+    bottom: 0rem;
+    left: 0rem;
+    right: 0rem;
+  }
+}
+@keyframes smoothBefore {
+  0% {
+    top: -1rem;
+    bottom: -1rem;
+    left: -1rem;
+    right: -1rem;
+  }
+  100% {
+    top: 0rem;
+    bottom: 0rem;
+    left: 0rem;
+    right: 0rem;
+  }
+}
