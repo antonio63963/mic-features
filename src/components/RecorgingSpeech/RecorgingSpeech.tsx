@@ -1,30 +1,32 @@
-import React, { useState } from "react";
+import React from "react";
 import cn from "classnames";
 import styles from "./RecordingSpeech.module.css";
 import useRecording from "../../hooks/useRecording";
 
 const RecorgingSpeech = () => {
-  const [isRecording, setIsRecording] = useState(false);
-
   const { canRecord, resultRecord, recorder } = useRecording();
-
-  console.log(canRecord)
 
   const toggleMic = () => {
     if (!canRecord) return;
-    setIsRecording(!isRecording);
-    isRecording ? recorder?.start() : recorder?.stop();
+    recorder?.state === "recording" ? recorder?.stop() : recorder?.start();
   };
 
   return (
     <main>
       <button
-        className={cn(styles.micToggle, isRecording ? "isRecording" : null)}
+        className={cn(
+          styles.micToggle,
+          recorder?.state === "recording" ? styles.isRecording : null
+        )}
         onClick={toggleMic}
       >
         <span className="material-icons">mic</span>
       </button>
-      <audio src={resultRecord || undefined} className="playback" controls></audio>
+      <audio
+        src={resultRecord || undefined}
+        className="playback"
+        controls
+      ></audio>
     </main>
   );
 };

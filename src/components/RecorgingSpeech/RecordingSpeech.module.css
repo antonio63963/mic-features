@@ -22,12 +22,7 @@
   left: 0;
   right: 0;
 }
-.micToggle::after {
-  /* transition: 0.2s; */
-}
-.micToggle::before {
-  /* transition: 0.4s; */
-}
+
 .micToggle.isRecording::after {
   animation: smoothAfter ;
   animation-duration: .6s;

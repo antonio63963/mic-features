@@ -1,36 +1,47 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const useRecording = () => {
   const [rec, setRec] = useState<MediaRecorder | null>(null);
   const [canRecord, setCanRecord] = useState(false);
+  const recordsArr = useRef<BlobPart[]>([]);
   const [resultRecord, setResultRecord] = useState<string | null>(null);
 
   function SetupStream(stream: MediaStream) {
-    let record: Blob[] = [];
+    // let record: Blob[] = [];
     const recorder = new MediaRecorder(stream);
- 
+    recorder.onstart = () => {
+      console.log("RECORDER STARTED!...")
+    }
+    
+    console.log(recorder.stream.active);
+    // recorder.onstart = () => {
+      //   recordsArr.current = []
+      // }
       recorder.ondataavailable = (e: BlobEvent) => {
-        record.push(e.data);
-      };
+      console.log("STREAM: ", recorder)
+      console.log(e.data)
+      recordsArr.current.push(e.data);
+    };
+
+
     recorder.onstop = (e) => {
-      const blob = new Blob(record, {type: 'audio/ogg; codecs=opus'});
-      record = [];
+      const blob = new Blob(recordsArr.current, { type: "audio/ogg; codecs=opus" });
+      console.log(recordsArr.current)
+      recordsArr.current = [];
       const audioURL = window.URL.createObjectURL(blob);
       setResultRecord(audioURL);
     };
-    setCanRecord(true);
     setRec(recorder);
+    setCanRecord(true);
   }
 
   useEffect(() => {
     if (navigator.mediaDevices) {
-      console.log('DEVICES: ', navigator.mediaDevices)
       navigator.mediaDevices
         .getUserMedia({
           audio: true,
         })
         .then((data: any) => {
-          console.log('DATA: ', data)
           SetupStream(data);
         })
         .catch((err) => console.error(err));
@@ -39,8 +50,8 @@ const useRecording = () => {
   return {
     canRecord,
     resultRecord,
-    recorder: rec
-  }
+    recorder: rec,
+  };
 };
 
 export default useRecording;
