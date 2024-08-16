@@ -5,6 +5,10 @@
   border-radius: 100%;
   background-color: crimson;
   margin-bottom: 4rem;
+  transition: all .5s ease;
+}
+.micToggle:hover {
+  opacity: .5;
 }
 .micToggle::after,
 .micToggle::before {
